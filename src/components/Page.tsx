@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { ReactChildren } from '../types'
 import { use100vh } from 'react-div-100vh'
+import { theme } from '../utils'
 
 const StyledPage = styled.div<{ minHeight: number | null }>`
   min-height: ${({ minHeight }) => minHeight ? `${minHeight}px` : '100vh'};

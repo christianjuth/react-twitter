@@ -8,6 +8,7 @@ import { auth } from '../utils'
 const TextArea = styled.textarea`
   resize: none;
   margin: 0;
+  padding: 0;
   background: transparent;
   border: none;
   font-size: 1.5rem;

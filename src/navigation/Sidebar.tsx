@@ -2,19 +2,19 @@ import { FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
 import { theme, auth } from '../utils'
 import { ReactChildren } from '../types'
-import { Text, Link } from '../components'
+import { Text, Link, Display } from '../components'
 import { useLocation } from 'react-router-dom'
 import { BiLogOut } from'react-icons/bi'
 
 import { navConfig } from './config'
 
 const FlexCol = styled.div`
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
-  padding-top: ${theme.spacing(5)};
+  padding: ${theme.spacing(5, 2)};
   font-size: 1rem;
-  flex: 1;
-  height: 100%;
 `
 
 const ItemWrap = styled(Link)<{ active: boolean }>`
@@ -24,11 +24,7 @@ const ItemWrap = styled(Link)<{ active: boolean }>`
   * {
     color: ${({active}) => active ? theme.color('accent1') : theme.color('text')};
   }
-  padding-top: ${theme.spacing(5)};
-`
-
-const IconWrap = styled.div`
-  padding-right: ${theme.spacing(2)};
+  padding-top: ${theme.spacing(4)};
 `
 
 function Item({
@@ -46,10 +42,18 @@ function Item({
 }) {
   return (
     <ItemWrap active={active} href={href} onClick={onClick}>
-      <IconWrap>
-        {icon}
-      </IconWrap>
-      <Text variant='h5' noPadding>{title}</Text>
+      {icon}
+      <Display xs={false} md={true}>
+        <Text 
+          variant='h5' 
+          noPadding
+          style={{
+            padding: theme.spacing(0, 3)
+          }}
+        >
+          {title}
+        </Text>
+      </Display>
     </ItemWrap>
   )
 }
@@ -59,7 +63,7 @@ export function Sidebar() {
 
   return (
     <FlexCol>
-      <Link href="/">
+      <Link href="/" style={{color: theme.color('text')}}>
         <FaTwitter size={32}/>
       </Link>
       {Object.entries(navConfig.routes).map(([key, config]) => config.showInSidebar ? (

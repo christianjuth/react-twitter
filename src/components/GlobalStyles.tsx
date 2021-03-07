@@ -7,6 +7,10 @@ export const GlobalStyles = createGlobalStyle`
     ${theme.cssVars}
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   html,
   body {
     padding: 0;
@@ -14,7 +18,11 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${theme.color('primary')};
   }
 
-  a, h1, h2, h3, h4, h5, h6, input, textarea {
+  h1, h2, h3, h4, h5, h6, input, textarea {
     color: ${theme.color('text')}
+  }
+
+  a {
+    color: ${theme.color('accent1')}
   }
 `
