@@ -24,7 +24,6 @@ const variants = [
   "h4",
   "h5",
   "h6",
-  "h7",
   "p",
   "link",
 ] as const
@@ -111,31 +110,23 @@ export const GlobalTextStyles = createGlobalStyle`
     margin-bottom: ${SPACING_AFTER_TEXT};
   }
   .${genName("h6")} {
-    font-size: ${pxToRem(18)};
+    font-size: ${pxToRem(16)};
     font-style: normal;
-    font-weight: 400;
-    line-height: ${22 / 18}em;
-    margin-bottom: ${SPACING_AFTER_TEXT};
-  }
-  
-  .${genName("h7")} {
-    font-size: ${pxToRem(14)};
-    font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     line-height: ${16 / 14}em;
     margin-bottom: ${SPACING_AFTER_TEXT};
   }
   .${genName("p")} {
     font-size: ${pxToRem(20)};
     font-style: normal;
-    font-weight: 700;
+    font-weight: normal;
     line-height: ${30 / 20}em;
     margin-bottom: ${SPACING_AFTER_TEXT};
   }
   .${genName("link")}, a {
     font-size: ${pxToRem(18)};
     font-style: normal;
-    font-weight: 400;
+    font-weight: normal;
     line-height: ${22 / 18}em;
     color: ${theme.color('accent1')};
     text-decoration: none;

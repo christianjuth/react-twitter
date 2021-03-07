@@ -1,24 +1,24 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Page, Text, Button } from '../components';
+import { Text, Button, Layout } from '../components';
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  justify-self: center;
+  justify-content: center;
   align-self: center;
-  align-content: flex-start;
+  flex: 1;
 `
 
 export function NotFound() {
   return (
-    <Page>
+    <Layout>
       <Card>
         <Text variant='h1'>404.</Text>
         <Text variant='h2' noPadding>Not found.</Text>
         <br/>
-        <Button href='/'>Return home</Button>
+        <Button href='/' variant='outlined'>Return home</Button>
       </Card>
-    </Page>
+    </Layout>
   )
 }

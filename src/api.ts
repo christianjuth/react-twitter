@@ -17,22 +17,29 @@ function useTweets() {
   return useFetch<API.Tweet[]>(urls.api('/tweets'))
 }
 
+function useTweet(id: string) {
+  return useFetch<API.Tweet[]>(urls.api(`/tweets/${id}`))
+}
+
 function useProfile(handle?: string | null) {
   return useFetch<API.Tweet[]>(urls.api(`/profile/${handle}`), { enabled: Boolean(handle) })
 }
 
 function createTweet({
   message,
-  handle
+  handle,
+  parentId
 }: {
   message: string
   handle: string
+  parentId?: string
 }) {
   return fetchUtil<API.Tweet>(urls.api('/tweets'), {
     method: 'POST',
     body: {
       message,
-      handle
+      handle,
+      parentId
     }
   })
 }
@@ -43,9 +50,17 @@ function deleteTweet(id: string) {
   })
 }
 
+function likeTweet(id: string) {
+  return fetchUtil(urls.api(`/tweets/${id}/like`), {
+    method: 'POST',
+  })
+}
+
 export const api = {
   useTweets,
   createTweet,
   useProfile,
-  deleteTweet
+  deleteTweet,
+  useTweet,
+  likeTweet
 }

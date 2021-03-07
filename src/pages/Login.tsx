@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Input, Page, Text, Button, ActivityIndicatorScreen } from '../components';
+import { Input, Page, Text, Button, ActivityIndicatorLayout } from '../components';
 import { auth } from '../utils'
 
 const Form = styled.form`
@@ -16,7 +16,7 @@ export function Login() {
   const isLoggedIn = auth.useIsLoggedIn()
 
   if (isLoggedIn === undefined) {
-    return <ActivityIndicatorScreen/>
+    return <ActivityIndicatorLayout/>
   }
 
   function handleLogin() {

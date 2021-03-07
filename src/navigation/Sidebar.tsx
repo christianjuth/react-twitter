@@ -66,7 +66,7 @@ export function Sidebar() {
       <Link href="/" style={{color: theme.color('text')}}>
         <FaTwitter size={32}/>
       </Link>
-      {Object.entries(navConfig.routes).map(([key, config]) => config.showInSidebar ? (
+      {Object.entries(navConfig.routes).map(([key, config]) => config.icon ? (
         <Item
           key={key}
           href={key}

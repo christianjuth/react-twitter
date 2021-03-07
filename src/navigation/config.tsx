@@ -1,29 +1,36 @@
 import { GiBirdHouse } from 'react-icons/gi'
 import { BsPerson } from 'react-icons/bs'
+import { FaHashtag } from 'react-icons/fa'
 import * as Pages from '../pages'
+import { urls } from '../utils'
 
 const routes: Record<string, {
   title: string
   component: JSX.Element
-  icon: JSX.Element
-  showInSidebar?: boolean
+  icon?: JSX.Element
 }> = {
-  '/': {
+  [urls.routes.home()]: {
     title: 'Home',
     component: <Pages.Home/>,
-    icon: <GiBirdHouse size={32}/>,
-    showInSidebar: true
+    icon: <GiBirdHouse size={32}/>
   },
-  '/profile': {
-    title: 'Profile',
-    component: <Pages.Profile/>,
-    icon: <BsPerson size={32}/>,
-    showInSidebar: true
+  [urls.routes.tweet(':tweetId')]: {
+    title: 'Tweet',
+    component: <Pages.Tweet/>,
   },
-  '/profile/:handle': {
+  [urls.routes.explore()]: {
+    title: 'Explore',
+    component: <Pages.Explore/>,
+    icon: <FaHashtag size={32}/>
+  },
+  [urls.routes.profile()]: {
     title: 'Profile',
     component: <Pages.Profile/>,
     icon: <BsPerson size={32}/>
+  },
+  [urls.routes.profile(':handle')]: {
+    title: 'Profile',
+    component: <Pages.Profile/>
   }
 }
 

@@ -11,9 +11,10 @@ const colors = {
   },
   text: '#fff',
   textMuted: '#6e767d',
-  divider: 'rgba(255,255,255,0.3)',
+  divider: '#2f3336',
   disabled: '#eee',
-  danger: '#e0245e'
+  danger: '#e0245e',
+  warning: 'orange'
 }
 
 const zIndexLevels = {

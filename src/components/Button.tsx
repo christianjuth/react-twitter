@@ -7,11 +7,11 @@ import { GenericProps } from "../types"
 const StyledButton = styled.button<{
   size: Button.Size
   variant: Button.Variant
-  color: Button.Color
+  customColor: Button.Color
   fullWidth: boolean
   uppercase: boolean
 }>`
-  border: 2px solid ${({ color }) => theme.color(color)};
+  border: 2px solid ${({ customColor }) => theme.color(customColor)};
   border-radius: ${theme.roundness(2)}px;
   padding: 0;
   background: transparent;
@@ -43,7 +43,7 @@ const StyledButton = styled.button<{
       case "sm":
         return `
           font-size: 1.05rem;
-          padding: ${pxToRem(9)} ${pxToRem(10)};
+          padding: ${pxToRem(10)} ${pxToRem(14)};
         `
       case "md":
         return `
@@ -60,19 +60,19 @@ const StyledButton = styled.button<{
   ${({ variant }) => {
     switch (variant) {
       case "contained":
-        return ({ color }) => `
+        return ({ customColor }) => `
           &, &:hover, &:active {
-            background-color: ${theme.color(color)};
-            color: ${theme.color(color, "main", "contrastText")};
+            background-color: ${theme.color(customColor)};
+            color: ${theme.color(customColor, "main", "contrastText")};
           }
         `
       case "outlined":
-        return ({ color }) => `
+        return ({ customColor }) => `
           transition: background-color 0.2s, color 0.2s;
-          color: ${theme.color(color)};
+          color: ${theme.color(customColor)};
           &:hover {
-            background-color: ${theme.color(color)};
-            color: ${theme.color(color, "main", "contrastText")};
+            background-color: ${theme.color(customColor)};
+            color: ${theme.color(customColor, "main", "contrastText")};
           }
         `
     }
@@ -82,20 +82,17 @@ const StyledButton = styled.button<{
 const StyledLink = styled(Link)<{
   size: Button.Size
   variant: Button.Variant
-  color: Button.Color
+  customColor: Button.Color
   fullWidth: boolean
   uppercase: boolean
   disabled: boolean
 }>`
-  display: block;
-  border: 2px solid ${({ color }) => theme.color(color)};
+  border: 2px solid ${({ customColor }) => theme.color(customColor)};
   border-radius: ${theme.roundness(2)}px;
   padding: 0;
   background: transparent;
   line-height: 1em;
   font-weight: bold;
-  letter-spacing: 0.06em;
-  font-style: italic;
   cursor: pointer;
   text-align: center;
   ${({ disabled }) =>
@@ -124,7 +121,7 @@ const StyledLink = styled(Link)<{
       case "sm":
         return `
           font-size: 1.05rem;
-          padding: ${pxToRem(9)} ${pxToRem(10)};
+          padding: ${pxToRem(10)} ${pxToRem(14)};
         `
       case "md":
         return `
@@ -141,19 +138,19 @@ const StyledLink = styled(Link)<{
   ${({ variant }) => {
     switch (variant) {
       case "contained":
-        return ({ color }) => `
+        return ({ customColor }) => `
           &, &:hover, &:active {
-            background-color: ${theme.color(color)};
-            color: ${theme.color(color, "main", "contrastText")};
+            background-color: ${theme.color(customColor)};
+            color: ${theme.color(customColor, "main", "contrastText")};
           }
         `
       case "outlined":
-        return ({ color }) => `
+        return ({ customColor }) => `
           transition: background-color 0.2s, color 0.2s;
-          color: ${theme.color(color)};
+          color: ${theme.color(customColor)};
           &:hover {
-            background-color: ${theme.color(color)};
-            color: ${theme.color(color, "main", "contrastText")};
+            background-color: ${theme.color(customColor)};
+            color: ${theme.color(customColor, "main", "contrastText")};
           }
         `
     }
@@ -205,7 +202,7 @@ export function Button({
       variant={variant}
       style={style}
       href={href}
-      color={color}
+      customColor={color}
       fullWidth={fullWidth}
       uppercase={uppercase}
     >
@@ -219,7 +216,7 @@ export function Button({
       className={className}
       variant={variant}
       style={style}
-      color={color}
+      customColor={color}
       fullWidth={fullWidth}
       uppercase={uppercase}
       type={type}

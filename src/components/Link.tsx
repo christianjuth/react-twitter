@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link as DefaultLink, useNavigate } from "react-router-dom"
 import { History } from "history"
-import { urls } from "../utils/urls"
+import { urls, Theme, theme } from "../utils"
 import cn from "classnames"
 import styled from 'styled-components'
 
@@ -26,6 +26,7 @@ export function Link({
   role,
   onClick,
   linkRef: ref,
+  color
 }: {
   href?: string
   children: React.ReactNode
@@ -36,6 +37,7 @@ export function Link({
   role?: string
   onClick?: () => any
   linkRef?: React.RefObject<any>
+  color?: Theme.Color
 }) {
   const navigate = useNavigate()
   const isInternal = urls.linkIsInternal(href)
@@ -44,7 +46,10 @@ export function Link({
     return (
       <Button
         className={cn(CSS_CLASS, className)}
-        style={style}
+        style={{
+          color: color ? theme.color(color) : undefined,
+          ...style
+        }}
         tabIndex={tabIndex}
         role={role}
         onClick={onClick}
@@ -59,7 +64,10 @@ export function Link({
     <DefaultLink
       to={href ?? ""}
       className={cn(CSS_CLASS, className)}
-      style={style}
+      style={{
+        color: color ? theme.color(color) : undefined,
+        ...style
+      }}
       tabIndex={tabIndex}
       role={role}
       rel={rel}
@@ -82,7 +90,10 @@ export function Link({
       href={href ?? "#"}
       rel={`noopener nofollow${rel ? " " + rel : ""}`}
       target="_blank"
-      style={style}
+      style={{
+        color: color ? theme.color(color) : undefined,
+        ...style
+      }}
       className={cn(CSS_CLASS, className)}
       tabIndex={tabIndex}
       role={role}

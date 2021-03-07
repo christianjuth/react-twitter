@@ -3,7 +3,10 @@ const root = "https://rumad-backend-monorepo.herokuapp.com/twitter"
 const api = (url: string) => `${root}/${url.replace(/^\//, '')}`
 
 const routes = {
-  profile: (handle?: string) => ['/profile', handle].filter(Boolean).join('/')
+  profile: (handle?: string) => ['/profile', handle].filter(Boolean).join('/'),
+  tweet: (id?: string) => ['/tweets', id].filter(Boolean).join('/'),
+  home: () => '/',
+  explore: () => '/explore'
 }
 
 function getLocationHref() {

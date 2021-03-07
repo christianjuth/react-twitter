@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Text } from '../components/Text'
 import { theme } from '../utils'
+import { Helmet } from 'react-helmet-async'
 
 const Bar = styled.div`
   padding: ${theme.spacing(2)};
@@ -10,14 +11,23 @@ const Bar = styled.div`
   border-bottom: 1px solid ${theme.color('divider')};
 `
 
+function formatTitle(title?: string) {
+  return ['Twitter', title].filter(Boolean).join(' | ')
+}
+
 export function Navbar({
   title
 }: {
   title?: string
 }) {
   return (
-    <Bar>
-      <Text variant='h5' noPadding>{title}</Text>
-    </Bar>
+    <>
+      <Helmet>
+        <title>{formatTitle(title)}</title>
+      </Helmet>
+      <Bar>
+        <Text variant='h5' noPadding>{title}</Text>
+      </Bar>
+    </>
   )
 }

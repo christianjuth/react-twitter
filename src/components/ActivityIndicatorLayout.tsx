@@ -5,6 +5,7 @@ import { FlexGrid } from "./Grid"
 import { ReactChildren } from "../types"
 import "react-activity/dist/react-activity.css"
 import { theme } from "../utils"
+import { Layout } from './Layout'
 
 interface ActivityIndicatorProps {
   delay?: number
@@ -28,30 +29,27 @@ function ActivityIndicator({ delay = 500, children }: ActivityIndicatorProps) {
   return children ? <>{children}</> : <Dots />
 }
 
-interface ActivityIndicatorScreenProps extends ActivityIndicatorProps {
+interface ActivityIndicatorLayoutProps extends ActivityIndicatorProps {
   style?: React.CSSProperties
 }
 
-export function ActivityIndicatorScreen({
+export function ActivityIndicatorLayout({
   style,
   ...rest
-}: ActivityIndicatorScreenProps) {
+}: ActivityIndicatorLayoutProps) {
   return (
-    <FlexGrid.Row
-      style={{
-        position: "fixed",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.color("primary"),
-        zIndex: theme.zIndex("header", -1),
-        ...style,
-      }}
-    >
-      <ActivityIndicator {...rest} />
-    </FlexGrid.Row>
+    <Layout>
+      <FlexGrid.Row
+        style={{
+          flex: 1,
+          minHeight: '100%',
+          justifyContent: "center",
+          alignItems: "center",
+          ...style,
+        }}
+      >
+        <ActivityIndicator {...rest} />
+      </FlexGrid.Row>
+    </Layout>
   )
 }

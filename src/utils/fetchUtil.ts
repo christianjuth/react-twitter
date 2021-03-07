@@ -2,6 +2,15 @@ import * as React from 'react'
 
 export declare namespace FetchUtil {
   export type Status = 'idle' | 'pending' | 'error' | 'success'
+
+  export type Response<Data, Status> = [Data, Status]
+
+  export namespace States {
+    export type Idle = null
+    export type Pending = null
+    export type Error = { messgage: string }
+    export type Success<T> = T
+  }
 }
 
 interface Config extends Omit<RequestInit, 'body'> {
@@ -18,12 +27,14 @@ export async function fetchUtil<T> (url: string, config?: Config): Promise<T | n
   }
   
   const response = await fetch(url, {
+    cache: 'no-cache',
     ...restConfig,
     ...args,
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      ...args.headers
+      ...restConfig.headers,
+      ...args.headers,
     }
   })
 
@@ -41,21 +52,41 @@ interface UseFetchConfig extends Config {
 
 export function useFetch<T>(url: string, config?: UseFetchConfig) {
   const [status, setStatus] = React.useState<FetchUtil.Status>('idle')
-  const [data, setData] = React.useState<T | null>(null)
+  const [data, setData] = React.useState<T | Error | FetchUtil.States.Error>()
 
   React.useEffect(() => {
-    if (status !== 'idle' || config?.enabled === false) {
+    setStatus('idle')
+    if (config?.enabled === false) {
       return
     }
-
     setStatus('pending')
 
     fetchUtil<T>(url, config)
     .then(res => {
-      setData(res)
-      setStatus('success')
+      if (res !== null) {
+        setData(res)
+        setStatus('success')
+      } else {
+        setData({
+          messgage: 'not found'
+        })
+        setStatus('error')  
+      }
     })
-  }, [config])
+    .catch(err => {
+      setData(err)
+      setStatus('error')
+    })
+  }, [url, config?.enabled])
 
-  return [data, status] as const
+  switch (status) {
+    case 'idle':
+      return [null, status] as FetchUtil.Response<FetchUtil.States.Idle, typeof status>
+    case 'pending':
+      return [null, status] as FetchUtil.Response<FetchUtil.States.Pending, typeof status>
+    case 'success':
+      return [data, status] as FetchUtil.Response<FetchUtil.States.Success<T>, typeof status>
+    case 'error':
+      return [data, status] as FetchUtil.Response<FetchUtil.States.Success<T>, typeof status>
+  }
 }
