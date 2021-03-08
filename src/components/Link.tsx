@@ -1,9 +1,9 @@
+import cn from "classnames"
+import { History } from "history"
 import * as React from "react"
 import { Link as DefaultLink, useNavigate } from "react-router-dom"
-import { History } from "history"
-import { urls, Theme, theme } from "../utils"
-import cn from "classnames"
 import styled from 'styled-components'
+import { Theme, theme, urls } from "../utils"
 
 const CSS_CLASS = "Link"
 

@@ -1,10 +1,9 @@
 import * as React from 'react'
-import { theme } from '../utils'
 import styled from 'styled-components'
+import { auth, theme } from '../utils'
+import { api } from '../utils/api'
 import { Button } from './Button'
 import { Text } from './Text'
-import { API, api } from '../utils/api'
-import { auth } from '../utils'
 
 const TextArea = styled.textarea`
   resize: none;
