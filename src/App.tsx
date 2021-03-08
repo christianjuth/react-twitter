@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import { GlobalStyles, GlobalTextStyles, Accessibility } from './components'
+import { Provider as GridProvider } from './components/Grid'
+import { AppRouter } from './navigation/AppRouter'
+import { HelmetProvider } from 'react-helmet-async'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <HelmetProvider>
+      <GridProvider>
+        <GlobalStyles/>
+        <GlobalTextStyles/>
+        <Accessibility/>
+        <AppRouter/>
+      </GridProvider>
+    </HelmetProvider>
+  )
 }
 
 export default App;
