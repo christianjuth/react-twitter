@@ -15,15 +15,15 @@ export declare namespace API {
 }
 
 function useTweets() {
-  return useFetch<API.Tweet[]>(urls.api('/tweets'))
+  return useFetch<API.Tweet[]>(urls.api('/tweets'), { swr: true })
 }
 
 function useTweet(id: string) {
-  return useFetch<API.Tweet[]>(urls.api(`/tweets/${id}`))
+  return useFetch<API.Tweet[]>(urls.api(`/tweets/${id}`), { enabled: Boolean(id), swr: true })
 }
 
 function useProfile(handle?: string | null) {
-  return useFetch<API.Tweet[]>(urls.api(`/profile/${handle}`), { enabled: Boolean(handle) })
+  return useFetch<API.Tweet[]>(urls.api(`/profile/${handle}`), { enabled: Boolean(handle), swr: true })
 }
 
 function createTweet({

@@ -10,7 +10,6 @@ export function Profile() {
   const authHandle = auth.useHandle()
   const handle = handleParam ?? authHandle
   const tweets = api.useProfile(handle);
-  const [ deletedTweets, setDeletedTweets ] = React.useState<string[]>([])
 
   if (tweets.status === 'error') {
     return <NotFound/>
@@ -23,7 +22,7 @@ export function Profile() {
   return (
     <Layout>
       <Navbar title={handle ?? 'Profile'}/>
-      {tweets.data.map(t => deletedTweets.indexOf(t.id) === -1 ? (
+      {tweets.data.map(t => (
         <Tweet
           key={t.id}
           handle={t.handle}
@@ -31,12 +30,10 @@ export function Profile() {
           message={t.message}
           tweetId={t.id}
           disableProfileLink
-          onDelete={() => {
-            setDeletedTweets(deleted => [...deleted, t.id])
-          }}
+          onDelete={tweets.refresh}
           likes={t.likes}
         />
-      ) : null)}
+      ))}
     </Layout>
   )
 }

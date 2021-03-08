@@ -1,5 +1,9 @@
 import * as React from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
+import hash from 'imurmurhash'
+
+const DEFALT_SWR_REVALIDATE_SECONDS = 60 * 60 * 24 * 7 // one week
+const SWR_CACHE_KEY = 'SWR'
 
 export declare namespace FetchUtil {
   export type Status = 'idle' | 'pending' | 'error' | 'success'
@@ -55,11 +59,67 @@ export async function fetchUtil<T> (url: string, config?: Config): Promise<T | n
 interface UseFetchConfig extends Config {
   enabled?: boolean
   clearDataOnRefresh?: boolean
+  swr?: boolean
+  swrRevalidateSeconds?: number
+}
+
+// These three functions are used for 
+// stale while revalidating (swr) cachind
+function keyGen(data: string) {
+  return String(hash(data).result())
+}
+function saveData(keySeed: string, value: Record<string, any>) {
+  if (typeof window !== 'undefined') {
+    const hashedKey = keyGen(keySeed)
+
+    // Get entire cache
+    const swrCacheString = window.localStorage.getItem(SWR_CACHE_KEY)
+    const swrCache = swrCacheString ? JSON.parse(swrCacheString) : {}
+    // Add item to cache
+    swrCache[hashedKey] = { value, updatedAt: Date.now() }
+    // Update localStorage new cache
+    window.localStorage.setItem(SWR_CACHE_KEY, JSON.stringify(swrCache))
+  }
+}
+function getData(keySeed: string, ttlSeconds: number) {
+  if (typeof window === 'undefined') {
+    return null
+  }
+  try {
+    // Get entire cache
+    const swrCacheString = window.localStorage.getItem(SWR_CACHE_KEY)
+    const swrCache = swrCacheString ? JSON.parse(swrCacheString) : {}
+
+    // Look up item in cache
+    const hashedKey = keyGen(keySeed)
+    const item = swrCache[hashedKey]
+  
+    if (!item) {
+      return null
+    }
+    const { value, updatedAt } = item
+  
+    // Check if value is still valid
+    if (isNaN(updatedAt) || (Date.now() - updatedAt) > (ttlSeconds * 1000)) {
+      return null
+    }
+  
+    return value ?? null
+  } catch(e) {
+    return null
+  }
 }
 
 export function useFetch<T>(url: string, config?: UseFetchConfig) {
   const [ status, setStatus ] = React.useState<FetchUtil.Status>('idle')
-  const [ data, setData ] = React.useState<T | null>(null)
+
+  const swrKey = JSON.stringify({ url, config })
+  const initData = config?.swr ? getData(
+    swrKey, 
+    config.swrRevalidateSeconds ?? DEFALT_SWR_REVALIDATE_SECONDS
+  ) : null
+
+  const [ data, setData ] = React.useState<T | null>(initData ?? null)
   const [ error, setError ] = React.useState<FetchUtil.States.Error | null>(null)
   const [ refreshKey, setRefreshKey ] = React.useState(0)
 
@@ -72,12 +132,14 @@ export function useFetch<T>(url: string, config?: UseFetchConfig) {
     if (config?.clearDataOnRefresh) {
       setData(null)
     }
-    console.log('fetching')
 
     fetchUtil<T>(url, config)
     .then(res => {
       if (res !== null) {
         setData(res)
+        if (config?.swr) {
+          saveData(swrKey, res) 
+        }
         setStatus('success')
       } else {
         setError({
@@ -90,7 +152,7 @@ export function useFetch<T>(url: string, config?: UseFetchConfig) {
       setError(err)
       setStatus('error')
     })
-  }, [url, config ?? {}, refreshKey])
+  }, [url, config ?? {}, refreshKey, swrKey])
 
   // included in all returns
   const generic = {

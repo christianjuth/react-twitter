@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/heading-has-content: 0 */
+
 import * as React from "react"
 import { ReactChildren } from "../types"
 import { createGlobalStyle } from "styled-components"

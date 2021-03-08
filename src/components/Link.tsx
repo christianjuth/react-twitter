@@ -1,3 +1,5 @@
+/* eslint react/jsx-no-target-blank: 0 */
+
 import cn from "classnames"
 import { History } from "history"
 import * as React from "react"

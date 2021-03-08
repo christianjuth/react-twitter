@@ -7,7 +7,6 @@ import { NotFound } from './NotFound';
 export function Tweet() {
   const { tweetId } = useParams()
   const tweets = api.useTweet(tweetId);
-  const [ deletedTweets, setDeletedTweets ] = React.useState<string[]>([])
   const navigate = useNavigate()
 
   if (tweets.status === 'error') {
@@ -21,7 +20,7 @@ export function Tweet() {
   return (
     <Layout>
       <Navbar title='Home'/>
-      {tweets.data.map(t => deletedTweets.indexOf(t.id) === -1 ? (
+      {tweets.data.map(t => (
         <TweetCard
           key={t.id}
           handle={t.handle}
@@ -32,13 +31,14 @@ export function Tweet() {
           onDelete={() => {
             if (t.id === tweetId) {
               navigate(urls.routes.home())
+            } else {
+              tweets.refresh()
             }
-            setDeletedTweets(deleted => [...deleted, t.id])
           }}
           large={t.id === tweetId}
           likes={t.likes}
         />
-      ) : null)}
+      ))}
       <CreateTweet
         onCreated={tweets.refresh}
         parentId={tweetId}

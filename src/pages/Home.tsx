@@ -5,7 +5,6 @@ import { NotFound } from './NotFound'
 
 export function Home() {
   const tweets = api.useTweets();
-  const [ deletedTweets, setDeletedTweets ] = React.useState<string[]>([])
 
   if (tweets.status === 'error') {
     return <NotFound/>
@@ -21,19 +20,17 @@ export function Home() {
       <CreateTweet
         onCreated={tweets.refresh}
       />
-      {tweets.data.map(t => deletedTweets.indexOf(t.id) === -1 ? (
+      {tweets.data.map(t => (
         <Tweet
           key={t.id}
           handle={t.handle}
           date={t.createdAt}
           message={t.message}
           tweetId={t.id}
-          onDelete={() => {
-            setDeletedTweets(deleted => [...deleted, t.id])
-          }}
+          onDelete={tweets.refresh}
           likes={t.likes}
         />
-      ) : null)}
+      ))}
     </Layout>
   )
 }
