@@ -13,7 +13,7 @@ export function Tweet() {
     return <NotFound/>
   }
 
-  if (tweets.data === null) {
+  if (tweets.data === null || tweets.data[0]?.id !== tweetId) {
     return <ActivityIndicatorLayout/>
   }
 
