@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ActivityIndicatorLayout, Button, Input, Page, Text } from '../components';
-import { auth } from '../utils';
+import { api } from '../utils';
 
 const Form = styled.form`
   display: flex;
@@ -12,16 +12,13 @@ const Form = styled.form`
 `
 
 export function Login() {
-  const [ handle, setHandle ] = React.useState('')
-  const isLoggedIn = auth.useIsLoggedIn()
+  const [ username, setUsername ] = React.useState('')
+  const [ password, setPassword ] = React.useState('')
 
-  if (isLoggedIn === undefined) {
-    return <ActivityIndicatorLayout/>
-  }
-
-  function handleLogin() {
+  async function login() {
     try {
-      auth.login(handle)
+      await api.login({ username, password })
+      window.location.reload()
     } catch(e) {
       alert(e)
     }
@@ -32,16 +29,21 @@ export function Login() {
       <Form
         onSubmit={e => {
           e.preventDefault()
-          handleLogin()
+          login()
         }}
       >
         <Text variant='h3'>Login</Text>
         <Input
-          placeholder='Twitter handle'
-          value={handle}
-          onChange={e => setHandle(e.target.value)}
+          placeholder='Username'
+          value={username}
+          onChange={e => setUsername(e.target.value)}
         />
-        <br/>
+        <Input
+          placeholder='Password'
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          type="password"
+        />
         <Button>Login</Button>
       </Form>
     </Page>

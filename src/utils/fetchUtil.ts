@@ -37,6 +37,7 @@ export async function fetchUtil<T> (url: string, config?: Config): Promise<T | n
   }
   
   const response = await fetch(url, {
+    credentials: "include",
     cache: 'no-cache',
     ...restConfig,
     ...args,

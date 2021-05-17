@@ -23,8 +23,8 @@ export function Tweet() {
       {tweets.data.map(t => (
         <TweetCard
           key={t.id}
-          handle={t.handle}
-          replyHandle={t.id !== tweetId ? tweets.data?.[0].handle : undefined}
+          handle={t.username}
+          replyHandle={t.id !== tweetId ? tweets.data?.[0].username : undefined}
           date={t.createdAt}
           message={t.message}
           tweetId={t.id}

@@ -23,7 +23,7 @@ export function Home() {
       {tweets.data.map(t => (
         <Tweet
           key={t.id}
-          handle={t.handle}
+          handle={t.username}
           date={t.createdAt}
           message={t.message}
           tweetId={t.id}

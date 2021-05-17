@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { navConfig } from './config'
-import { auth } from '../utils'
+import { api } from '../utils'
 import * as Pages from '../pages'
 
 export function AppRouter() {
-  const isLoggedIn = auth.useIsLoggedIn();
+  const isLoggedIn = api.useIsLoggedIn();
 
   return (
     <BrowserRouter>

@@ -8,6 +8,7 @@ const InputStyled = styled.input<{ inputSize: GenericProps.Size }>`
   border-bottom: 1px solid ${theme.color('divider')};
   font-size: 2rem;
   padding: 0;
+  margin-bottom: 15px;
 
   ${({inputSize}) => {
     switch (inputSize) {

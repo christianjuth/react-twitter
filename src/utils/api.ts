@@ -1,10 +1,11 @@
+import * as React from 'react'
 import { useFetch, fetchUtil } from './fetchUtil'
 import { urls } from './urls'
 
 export declare namespace API {
   export type Tweet = {
     createdAt: string
-    handle: string
+    username: string
     id: string
     likes: number
     message: string
@@ -45,6 +46,48 @@ function createTweet({
   })
 }
 
+function login({
+  username,
+  password
+}: {
+  username?: string
+  password?: string
+}) {
+  return fetchUtil<any>(urls.api('/login'), {
+    method: 'POST',
+    body: {
+      username,
+      password
+    }
+  })
+}
+
+async function logout() {
+  await fetchUtil<any>(urls.api('/logout'), {
+    method: 'POST'
+  })
+  window.location.reload()
+}
+
+function useIsLoggedIn() {
+  const [loggedIn, setLoggedIn] = React.useState<boolean | undefined>(undefined)
+
+  React.useEffect(() => {
+    async function auth() {
+      try {
+        await login({})
+        setLoggedIn(true)
+      } catch(e) {
+        console.log(e)
+        setLoggedIn(false)
+      }
+    }
+    auth()
+  }, [])
+
+  return loggedIn
+}
+
 function deleteTweet(id: string) {
   return fetchUtil(urls.api(`/tweets/${id}`), {
     method: 'DELETE',
@@ -63,5 +106,8 @@ export const api = {
   useProfile,
   deleteTweet,
   useTweet,
-  likeTweet
+  likeTweet,
+  login,
+  logout,
+  useIsLoggedIn
 }

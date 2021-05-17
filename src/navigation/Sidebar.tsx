@@ -1,6 +1,6 @@
 import { FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
-import { theme, auth } from '../utils'
+import { theme, api } from '../utils'
 import { ReactChildren } from '../types'
 import { Display } from '../components/Grid'
 import { Link } from '../components/Link'
@@ -81,7 +81,7 @@ export function Sidebar() {
       <Item
         icon={<BiLogOut size={32}/>}
         title='Logout'
-        onClick={auth.logout}
+        onClick={api.logout}
       />
     </FlexCol>
   )

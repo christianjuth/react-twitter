@@ -1,9 +1,6 @@
 import * as React from 'react'
+import { api } from './api'
 const LOCAL_STORAGE_KEY = 'twitter-userName'
-
-function validHandle(handle: string) {
-  return /^([a-z0-9]|-|_)+$/i.test(handle)
-}
 
 function useIsLoggedIn() {
   const [loggedIn, setLoggedIn] = React.useState<boolean | undefined>(undefined)
@@ -37,16 +34,16 @@ function isLoggedIn() {
   return Boolean(localStorage.getItem(LOCAL_STORAGE_KEY))
 }
 
-function login(handle: string) {
-  handle = handle.toLowerCase()
-  if (!validHandle(handle)) {
-    throw new Error(`Error: invalid handle ${handle}. Please use numbers, letters, underscores, and spaces only.`)
-  }
-
-  localStorage.setItem(LOCAL_STORAGE_KEY, handle)
-  if (typeof window !== 'undefined') {
-    window.location.reload()
-  }
+async function login({
+  username,
+  password
+}: {
+  username: string
+  password: string
+}) {
+  username = username.toLowerCase()
+  const test = await api.login({ username, password })
+  console.log(test)
 }
 
 function logout() {

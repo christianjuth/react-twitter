@@ -1,4 +1,5 @@
-const root = "https://rumad-backend-monorepo.herokuapp.com/twitter"
+// const root = "https://rumad-backend-monorepo.herokuapp.com/twitter"
+const root = "http://localhost:3000"
 
 const api = (url: string) => `${root}/${url.replace(/^\//, '')}`
 
